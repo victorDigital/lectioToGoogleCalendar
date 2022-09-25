@@ -1,0 +1,131 @@
+from __future__ import print_function
+from ast import Delete
+
+import datetime
+import os.path
+import os
+
+
+from operator import le
+import os
+from turtle import update
+from lectio import Lectio
+from dotenv import load_dotenv
+from apscheduler.schedulers.background import BackgroundScheduler
+import time
+from tokenUpdate import tokenUpdate
+from datetime import date, timedelta
+import datetime
+import pytz
+import requests
+
+
+# If modifying these scopes, delete the file token.json.
+SCOPES = ['https://www.googleapis.com/auth/calendar']
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    PULSE = '\033[5m'
+
+load_dotenv()
+calendarId = "primary"
+l = Lectio(681)
+reach = 30 # How many days ahead to sync
+scheduler = BackgroundScheduler()
+
+def sched():
+    scheduler.add_job(main, 'interval', hours=0.5)
+    scheduler.start()
+    print("INFO: Schedule started, syncing every 30 minutes, press ctrl+c to stop and exit")
+    main()
+    while True:
+        time.sleep(1)
+
+def deleteAllEvents():
+    service = tokenUpdate()
+    # find all events and permanently delete them from the calendar
+    events_result = service.events().list(calendarId=calendarId, singleEvents=True, orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    for event in events:
+        service.events().delete(calendarId=calendarId, eventId=event['id']).execute()
+        try:
+            print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+str(event["summary"]))
+        except:
+            print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+"no summary / private event")
+
+    print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events deleted"+bcolors.ENDC)
+
+    print(bcolors.OKCYAN + "INFO: "+bcolors.OKGREEN+"Deleted old events" + bcolors.ENDC)
+
+def updateCalendar():
+    l.authenticate(os.environ["user"], os.environ["pass"])
+    start = datetime.datetime.now() + timedelta(days=0)
+    end = start + timedelta(days=reach)
+    schedule = l.get_schedule_for_student(os.environ["student_id"], start, end)
+    for i,lesson in enumerate(schedule):
+        if(i % 10 == 0):
+            print("INFO: "+str(round(i/len(schedule)*100, 2)), "% done")
+        addToCalendar(lesson)
+        
+        
+        
+
+def addToCalendar(lesson):
+    service = tokenUpdate()
+    # Create event
+    event = {
+        'summary': lesson.subject,
+        'location': lesson.room,
+        'description': lesson.url,
+        'start': {
+            'dateTime': lesson.start_time.isoformat(),
+            'timeZone': 'Europe/Copenhagen',
+        },
+        'end': {
+            'dateTime': lesson.end_time.isoformat(),
+            'timeZone': 'Europe/Copenhagen',
+        },
+        'recurrence': [
+            'RRULE:FREQ=DAILY;COUNT=1'
+        ],
+        'reminders': {
+            'useDefault': False,
+            'overrides': [
+                {'method': 'popup', 'minutes': 10},
+            ],
+        },
+    }
+    service.events().insert(calendarId=calendarId, body=event).execute()
+    print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"Event created: "+bcolors.ENDC+str(event.get('summary')))
+
+def generateTimeID(time):
+    return str(time.day) + str(time.month) + str(time.year)[-1]
+
+
+def main():
+    deleteAllEvents()
+    # get all events from lectio in the next reach days
+    updateCalendar()
+
+
+
+
+if __name__ == '__main__':
+    print(bcolors.BOLD+"thanks for using this script,"+bcolors.WARNING+" it is still in development and might not work as expected!"+bcolors.ENDC)
+    print(bcolors.WARNING+"if the script is not working, please refer to the github installation guide here:"+bcolors.ENDC)
+    print(bcolors.OKGREEN+"https://github.com/victorDigital/lectioToGoogleCalendar"+bcolors.ENDC)
+    print(bcolors.BOLD+"if you have any questions or suggestions, please contact me on GitHub"+bcolors.ENDC)
+    print(bcolors.PULSE+"version: 0.0.1"+bcolors.ENDC)
+    #print a line across the screen 
+    print(bcolors.OKCYAN+"-"*50+bcolors.ENDC)
+    print(bcolors.FAIL+"WARN: Starting script in 15 seconds, DO NOT RUN ON PERSONAL CALENDAR, if in doubt press ctrl+c to cancel NOW!!!!"+ bcolors.ENDC)
+    time.sleep(15)
+    sched()
