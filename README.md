@@ -54,7 +54,7 @@ where `681` is your `LECTIO_INST_ID` and `12345678901` is your `student_id`
    2. after you have logged in, you will be asked to give the script permission to access your google calendar (you can revoke this permission at any time , but it doesent matter because it's a new google account)
    3. after you have given the script permission, close the browser window  
    4. the script will run a series of tests  
-      1. the result of the tests shuld look something like this:
+      1.  the result of the tests shuld look something like this:
       ```
         Test1: PASS ✅  
         Test2: PASS ✅  
@@ -62,14 +62,14 @@ where `681` is your `LECTIO_INST_ID` and `12345678901` is your `student_id`
         Test4: PASS ✅  
         All tests passed! you can run safely Main.py now!  
       ```
-        1. if you get an error, refer troubleshooting section below
-   5. after you have done that, the script will create a file called `token.json` in the `lectioToGoogleCalendar` directory  
-   6. the token file contains your `TOKEN` and `REFRESH_TOKEN` and `client_id` and `client_secret` and `token_uri` witch you will need to add to your environment variables so follow the steps from step 3
-   7. everything should now be set up and you can run the script by running ```python main.py``` in the `lectioToGoogleCalendar` directory
-      1. the script will run every 30 mins and update your calendar with the next month's schedule
-   8. to add the calender to your google calendar app, click the `+` button in the bottom right corner and select `subscribe to calendar` and paste the email address of the new calendar into the text box and click `Add Calendar`
-   9.  now you can see your schedule in your google personal calendar app
-   10. Enjoy! 😊
+      2.  if you get an error, refer troubleshooting section below
+10. after you have done that, the script will create a file called `token.json` in the `lectioToGoogleCalendar` directory  
+11. the token file contains your `TOKEN` and `REFRESH_TOKEN` and `client_id` and `client_secret` and `token_uri` witch you will need to add to your environment variables so follow the steps from step 3
+12. everything should now be set up and you can run the script by running ```python main.py``` in the `lectioToGoogleCalendar` directory
+    1.  the script will run every 30 mins and update your calendar with the next month's schedule
+13. to add the calender to your google calendar app, click the `+` button in the bottom right corner and select `subscribe to calendar` and paste the email address of the new calendar into the text box and click `Add Calendar`
+14. now you can see your schedule in your google personal calendar app
+15. Enjoy! 😊
 
 ## Usage
 every time you run the script, it will fetch the schedule for the next month and add it to your calendar, so if you run it manually every day, you will always have the next month's schedule in your calendar.  
