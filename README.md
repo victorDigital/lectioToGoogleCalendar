@@ -52,15 +52,35 @@ where `681` is your `LECTIO_INST_ID` and `12345678901` is your `student_id`
 9. now you can run the quickstart.py script by running ```python quickstart.py```in the `lectioToGoogleCalendar` directory
    1. this will open a browser window and ask you to log, log in with your NEW google account
    2. after you have logged in, you will be asked to give the script permission to access your google calendar (you can revoke this permission at any time , but it doesent matter because it's a new google account)
-   3. after you have given the script permission, close the browser window, 
-   4. the script will run a series of tests, 
-   5. after you have done that, the script will create a file called `token.pickle` in the `lectioToGoogleCalendar` directory
-
-
+   3. after you have given the script permission, close the browser window  
+   4. the script will run a series of tests  
+   5. after you have done that, the script will create a file called `token.json` in the `lectioToGoogleCalendar` directory  
+   6. the token file contains your `TOKEN` and `REFRESH_TOKEN` and `client_id` and `client_secret` and `token_uri` witch you will need to add to your environment variables so follow the steps from step 3
+   7. everything should now be set up and you can run the script by running ```python main.py``` in the `lectioToGoogleCalendar` directory
+      1. the script will run every 30 mins and update your calendar with the next month's schedule
+   8. to add the calender to your google calendar app, click the `+` button in the bottom right corner and select `subscribe to calendar` and paste the email address of the new calendar into the text box and click `Add Calendar`
+   9. now you can see your schedule in your google personal calendar app
+   10. Enjoy! 😊
 
 ## Usage
+every time you run the script, it will fetch the schedule for the next month and add it to your calendar, so if you run it manually every day, you will always have the next month's schedule in your calendar.  
+i recommend running the script on a Raspberry PI or something similar, so you can just leave it running and it will update your calendar every 30 mins without you having to do anything.  
 
 ## Troubleshooting
+if you get an error like this:
+```
+googleapiclient.errors.HttpError: <HttpError 403 ... "The caller does not have permission">
+```
+it could mean that you have not given the script permission to access your google calendar, to fix this, you need to delete the `token.json` file and run the `quickstart.py` script again.  
+it could also mean that you have not specified the correct scope in the `OAuth consent screen` section, to fix this, you need to go to the `OAuth consent screen` click `Edit` and make sure that the scope includes `https://www.googleapis.com/auth/calendar` and then click `Save` and then delete the `token.json` file and run the `quickstart.py` script again.  
+
+if you get an error like this:
+```
+googleapiclient.errors.HttpError: <HttpError 401 ... "Invalid Credentials">
+```
+it could mean that you have not specified the correct `TOKEN` and `REFRESH_TOKEN` and `client_id` and `client_secret` and `token_uri` in your environment variables, to fix this, you need to delete the `token.json` file and run the `quickstart.py` script again.  
+
+other errors are probably caused by something else, so if you get an error, you can open an GitHub issue and i will try to help you.
 
 ## todo
-edit README.md
+expand troubleshooting section in README.md
