@@ -57,13 +57,11 @@ def deleteAllEvents():
     for event in events:
         service.events().delete(calendarId=calendarId, eventId=event['id']).execute()
         try:
-            print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+str(event["summary"]))
+            print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+str(event["summary"]+ " | " + event["location"]))
         except:
-            print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+"no summary / private event")
+            print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+"unknown/private event")
 
-    print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events deleted"+bcolors.ENDC)
-
-    print(bcolors.OKCYAN + "INFO: "+bcolors.OKGREEN+"Deleted old events" + bcolors.ENDC)
+    print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events deleted, fetching new events"+bcolors.ENDC)
 
 def updateCalendar():
     l.authenticate(os.environ["user"], os.environ["pass"])
@@ -72,7 +70,7 @@ def updateCalendar():
     schedule = l.get_schedule_for_student(os.environ["student_id"], start, end)
     for i,lesson in enumerate(schedule):
         if(i % 10 == 0):
-            print("INFO: "+str(round(i/len(schedule)*100, 2)), "% done")
+            print(bcolors.OKCYAN+"INFO: "+str(round(i/len(schedule)*100, 2)), "% done"+ bcolors.ENDC)
         addToCalendar(lesson)
         
         
@@ -104,7 +102,10 @@ def addToCalendar(lesson):
         },
     }
     service.events().insert(calendarId=calendarId, body=event).execute()
-    print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"Event created: "+bcolors.ENDC+str(event.get('summary')))
+    try:
+        print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"Event created: "+bcolors.ENDC+str(event.get('summary')+ " | " + event.get('location')))
+    except:
+        print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"Event created: "+bcolors.ENDC+"unknown/private event ")
 
 def generateTimeID(time):
     return str(time.day) + str(time.month) + str(time.year)[-1]
@@ -123,7 +124,7 @@ if __name__ == '__main__':
     print(bcolors.WARNING+"if the script is not working, please refer to the github installation guide here:"+bcolors.ENDC)
     print(bcolors.OKGREEN+"https://github.com/victorDigital/lectioToGoogleCalendar"+bcolors.ENDC)
     print(bcolors.BOLD+"if you have any questions or suggestions, please contact me on GitHub"+bcolors.ENDC)
-    print(bcolors.PULSE+"version: 0.0.1"+bcolors.ENDC)
+    print(bcolors.PULSE+"version: 0.1.1"+bcolors.ENDC)
     #print a line across the screen 
     print(bcolors.OKCYAN+"-"*50+bcolors.ENDC)
     print(bcolors.FAIL+"WARN: Starting script in 15 seconds, DO NOT RUN ON PERSONAL CALENDAR, if in doubt press ctrl+c to cancel NOW!!!!"+ bcolors.ENDC)
