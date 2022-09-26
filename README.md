@@ -93,3 +93,4 @@ other errors are probably caused by something else, so if you get an error, you 
 
 ## TO-DO
 expand troubleshooting section in README.md
+use rich library to make the script look better
