@@ -29,6 +29,7 @@ class bcolors:
     FAIL = '\033[91m'
     ENDC = '\033[0m'
     PULSE = '\033[5m'
+    BOLD = '\033[1m'
 
 load_dotenv()
 calendarId = "primary"
