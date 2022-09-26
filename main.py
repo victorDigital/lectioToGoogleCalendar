@@ -54,13 +54,16 @@ def deleteAllEvents():
     # find all events and permanently delete them from the calendar
     events_result = service.events().list(calendarId=calendarId, singleEvents=True, orderBy='startTime').execute()
     events = events_result.get('items', [])
+    i = 0
     for event in events:
         service.events().delete(calendarId=calendarId, eventId=event['id']).execute()
+        if(i % 10 == 0):
+            print(bcolors.OKCYAN+"INFO: "+str(round(i/len(events)*100, 2)), "% done"+ bcolors.ENDC)
+        i += 1
         try:
             print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+str(event["summary"]+ " | " + event["location"]))
         except:
             print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+"unknown/private event")
-
     print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events deleted, fetching new events"+bcolors.ENDC)
 
 def updateCalendar():
@@ -72,6 +75,7 @@ def updateCalendar():
         if(i % 10 == 0):
             print(bcolors.OKCYAN+"INFO: "+str(round(i/len(schedule)*100, 2)), "% done"+ bcolors.ENDC)
         addToCalendar(lesson)
+    print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events added to calendar successfully"+bcolors.ENDC)
         
         
         
