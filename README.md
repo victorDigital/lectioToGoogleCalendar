@@ -60,9 +60,9 @@ where `681` is your `LECTIO_INST_ID` and `12345678901` is your `student_id`
         Test2: PASS ✅  
         Test3: PASS ✅  
         Test4: PASS ✅  
-        All tests passed! you can run safely Main.py now!  
+        All tests passed! you can safely run Main.py now!  
       ```
-      2.  if you get an error, refer troubleshooting section below
+      1.  if you get an error, refer troubleshooting section below
 10. after you have done that, the script will create a file called `token.json` in the `lectioToGoogleCalendar` directory  
 11. the token file contains your `TOKEN` and `REFRESH_TOKEN` and `client_id` and `client_secret` and `token_uri` witch you will need to add to your environment variables so follow the steps from step 3
 12. everything should now be set up and you can run the script by running ```python main.py``` in the `lectioToGoogleCalendar` directory
