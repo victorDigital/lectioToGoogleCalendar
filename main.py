@@ -37,7 +37,7 @@ class bcolors:
 
 load_dotenv()
 calendarId = "primary"
-l = Lectio(681)
+l = Lectio(os.environ["LECTIO_INST_ID"])
 reach = 30 # How many days ahead to sync
 scheduler = BackgroundScheduler()
 
