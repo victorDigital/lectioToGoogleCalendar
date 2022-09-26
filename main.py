@@ -1,4 +1,5 @@
 from __future__ import print_function
+from array import array
 from ast import Delete
 
 import datetime
@@ -18,21 +19,16 @@ from datetime import date, timedelta
 import datetime
 import pytz
 import requests
+from rich.progress import Progress, track
 
-
-# If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
     PULSE = '\033[5m'
 
 load_dotenv()
@@ -51,19 +47,13 @@ def sched():
 
 def deleteAllEvents():
     service = tokenUpdate()
-    # find all events and permanently delete them from the calendar
     events_result = service.events().list(calendarId=calendarId, singleEvents=True, orderBy='startTime').execute()
     events = events_result.get('items', [])
     i = 0
-    for event in events:
+    for i in track(range(len(events)), description="Deleting old events..."):
+        event = events[i]
         service.events().delete(calendarId=calendarId, eventId=event['id']).execute()
-        if(i % 10 == 0):
-            print(bcolors.OKCYAN+"INFO: "+str(round(i/len(events)*100, 2)), "% done"+ bcolors.ENDC)
         i += 1
-        try:
-            print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+str(event["summary"]+ " | " + event["location"]))
-        except:
-            print(bcolors.WARNING+"INFO: deleting event: "+bcolors.ENDC+"unknown/private event")
     print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events deleted, fetching new events"+bcolors.ENDC)
 
 def updateCalendar():
@@ -71,9 +61,8 @@ def updateCalendar():
     start = datetime.datetime.now() + timedelta(days=0)
     end = start + timedelta(days=reach)
     schedule = l.get_schedule_for_student(os.environ["student_id"], start, end)
-    for i,lesson in enumerate(schedule):
-        if(i % 10 == 0):
-            print(bcolors.OKCYAN+"INFO: "+str(round(i/len(schedule)*100, 2)), "% done"+ bcolors.ENDC)
+    for i in track(range(len(schedule)), description="Adding to calendar... "):
+        lesson = schedule[i]
         addToCalendar(lesson)
     print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events added to calendar successfully"+bcolors.ENDC)
         
@@ -106,18 +95,12 @@ def addToCalendar(lesson):
         },
     }
     service.events().insert(calendarId=calendarId, body=event).execute()
-    try:
-        print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"Event created: "+bcolors.ENDC+str(event.get('summary')+ " | " + event.get('location')))
-    except:
-        print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"Event created: "+bcolors.ENDC+"unknown/private event ")
-
 def generateTimeID(time):
     return str(time.day) + str(time.month) + str(time.year)[-1]
 
 
 def main():
     deleteAllEvents()
-    # get all events from lectio in the next reach days
     updateCalendar()
 
 
@@ -128,8 +111,7 @@ if __name__ == '__main__':
     print(bcolors.WARNING+"if the script is not working, please refer to the github installation guide here:"+bcolors.ENDC)
     print(bcolors.OKGREEN+"https://github.com/victorDigital/lectioToGoogleCalendar"+bcolors.ENDC)
     print(bcolors.BOLD+"if you have any questions or suggestions, please contact me on GitHub"+bcolors.ENDC)
-    print(bcolors.PULSE+"version: 0.1.1"+bcolors.ENDC)
-    #print a line across the screen 
+    print(bcolors.PULSE+"version: 0.2"+bcolors.ENDC)
     print(bcolors.OKCYAN+"-"*50+bcolors.ENDC)
     print(bcolors.FAIL+"WARN: Starting script in 15 seconds, DO NOT RUN ON PERSONAL CALENDAR, if in doubt press ctrl+c to cancel NOW!!!!"+ bcolors.ENDC)
     time.sleep(15)
