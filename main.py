@@ -6,7 +6,6 @@ import datetime
 import os.path
 import os
 
-
 from operator import le
 import os
 from turtle import update
@@ -65,9 +64,6 @@ def updateCalendar():
         lesson = schedule[i]
         addToCalendar(lesson)
     print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events added to calendar successfully"+bcolors.ENDC)
-        
-        
-        
 
 def addToCalendar(lesson):
     service = tokenUpdate()
@@ -95,16 +91,13 @@ def addToCalendar(lesson):
         },
     }
     service.events().insert(calendarId=calendarId, body=event).execute()
+
 def generateTimeID(time):
     return str(time.day) + str(time.month) + str(time.year)[-1]
-
 
 def main():
     deleteAllEvents()
     updateCalendar()
-
-
-
 
 if __name__ == '__main__':
     print(bcolors.BOLD+"thanks for using this script,"+bcolors.WARNING+" it is still in development and might not work as expected!"+bcolors.ENDC)
