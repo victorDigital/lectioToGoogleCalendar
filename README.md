@@ -51,8 +51,9 @@ where `681` is your `LECTIO_INST_ID` and `12345678901` is your `LECTIO_STUDENT_I
    4. the script will run a series of tests  
       1.  the result of the tests should look something like this:
       ```
+        Token file exists
+        Do you want to update the token? (y/n): y
         Updating token...
-        Enter a ID (minimum 4 chars): 12345
         Test1: PASS ✅
         Test2: PASS ✅
         Test3: PASS ✅
@@ -61,15 +62,12 @@ where `681` is your `LECTIO_INST_ID` and `12345678901` is your `LECTIO_STUDENT_I
         Test6: PASS ✅
         Test7: PASS ✅
         Test8: PASS ✅
-        All tests passed! you can safely run Main.py now!
+        All tests passed! Would would you like to run the program? (y/n):
       ```
-      1.  if you get an error, refer troubleshooting section below  
-10. after you have done that, the script will create a file called `token.json` in the `lectioToGoogleCalendar` directory  
-11. everything should now be set up and now you can run the script by running ```python main.py``` in the `lectioToGoogleCalendar`  directory
-    1.  the script will run every 30 mins and update your calendar with the next month's schedule  
-12. to add the calendar to your google calendar app, click the `+` button in the bottom right corner and select `subscribe to calendar` and paste the email address of the new calendar into the text box and click `Add Calendar`  
-13. now you can see your schedule in your google personal calendar   
-14. Enjoy! 😊  
+      1.  if you get an error, refer troubleshooting section below   
+11. to add the calendar to your google calendar app, click the `+` button in the bottom right corner and select `subscribe to calendar` and paste the email address of the new calendar into the text box and click `Add Calendar`  
+12. now you can see your schedule in your google personal calendar   
+13. Enjoy! 😊  
 
 ## Usage
 every time you run the script, it will fetch the schedule for the next month and add it to your calendar, so if you run it manually every day, you will always have the next month's schedule in your calendar.  
