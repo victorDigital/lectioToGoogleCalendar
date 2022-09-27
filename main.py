@@ -57,7 +57,7 @@ def deleteAllEvents():
     print(bcolors.OKCYAN+"INFO: "+bcolors.OKGREEN+"All events deleted, fetching new events"+bcolors.ENDC)
 
 def updateCalendar():
-    l.authenticate(os.environ["user"], os.environ["pass"])
+    l.authenticate(os.environ["LECTIO_USER"], os.environ["LECTIO_PASS"])
     start = datetime.datetime.now() + timedelta(days=0)
     end = start + timedelta(days=reach)
     schedule = l.get_schedule_for_student(os.environ["student_id"], start, end)
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     print(bcolors.WARNING+"if the script is not working, please refer to the github installation guide here:"+bcolors.ENDC)
     print(bcolors.OKGREEN+"https://github.com/victorDigital/lectioToGoogleCalendar"+bcolors.ENDC)
     print(bcolors.BOLD+"if you have any questions or suggestions, please contact me on GitHub"+bcolors.ENDC)
-    print(bcolors.PULSE+"version: 0.2"+bcolors.ENDC)
+    print(bcolors.PULSE+"version: 0.3"+bcolors.ENDC)
     print(bcolors.OKCYAN+"-"*50+bcolors.ENDC)
     print(bcolors.FAIL+"WARN: Starting script in 15 seconds, DO NOT RUN ON PERSONAL CALENDAR, if in doubt press ctrl+c to cancel NOW!!!!"+ bcolors.ENDC)
     time.sleep(15)
