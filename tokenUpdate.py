@@ -3,19 +3,14 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-
+import json
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-
 def tokenUpdate():
-    creds = Credentials(
-        token=os.environ["TOKEN"],
-        refresh_token=os.environ["REFRESH_TOKEN"],
-        token_uri=os.environ["token_uri"], 
-        client_id=os.environ["client_id"],
-        client_secret=os.environ["client_secret"],
-    )
+    f = open("token.json")
+    data = json.load(f)
+    creds = Credentials.from_authorized_user_info(data, SCOPES)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
