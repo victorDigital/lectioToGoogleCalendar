@@ -13,13 +13,8 @@ this script is written in Python and uses the [Google Calendar API](https://deve
      4. a NEW google account with no current calendars  
 
 you will also need the following user environment variables (i will explain how to set them up later, so don’t worry if you don’t know what they are just yet 😊)  
-* `TOKEN` 
-* `client_id`
-* `REFRESH_TOKEN`
-* `client_secret`
-* `token_uri`
-* `user` (Lectio username)
-* `pass` (Lectio password)
+* `LECTIO_USER` (Lectio username)
+* `LECTIO_PASS` (Lectio password)
 * `LECTIO_INST_ID`
 * `student_id`
 
@@ -38,7 +33,7 @@ https://www.lectio.dk/lectio/681/SkemaNy.aspx?type=elev&elevid=12345678901
 where `681` is your `LECTIO_INST_ID` and `12345678901` is your `student_id`  
 (Be careful when working with environment variables, if you override an existing variable, you can really mess up your system, so make sure you don't override any existing variables)  
 3. on Windows you open the app `Edit the system environment variables` and click `Environment Variables` and then `New` to create a new variable, and then `Edit` to edit an existing variable.  
-4. you can also add the `pass` and `user` to your environment variables, the values should be your lectio username and password.  
+4. you can also add the `LECTIO_PASS` and `LECTIO_USER` to your environment variables, the values should be your lectio username and password.  
 #### that is all you need for the Lectio part of the configuration, now for the Google Calendar part (which sadly is a bit more complicated):  
 5. go to the [Google Calendar API](https://console.developers.google.com/apis/library/calendar-json.googleapis.com) and log in with your NEW google account, and click `Enable`
    1. make sure you are on the `NEW` google account, if you are not, log out and log in with the `NEW` google account
@@ -56,20 +51,25 @@ where `681` is your `LECTIO_INST_ID` and `12345678901` is your `student_id`
    4. the script will run a series of tests  
       1.  the result of the tests should look something like this:
       ```
-        Test1: PASS ✅  
-        Test2: PASS ✅  
-        Test3: PASS ✅  
-        Test4: PASS ✅  
-        All tests passed! you can safely run Main.py now!  
+        Updating token...
+        Enter a ID (minimum 4 chars): 12345
+        Test1: PASS ✅
+        Test2: PASS ✅
+        Test3: PASS ✅
+        Test4: PASS ✅
+        Test5: PASS ✅
+        Test6: PASS ✅
+        Test7: PASS ✅
+        Test8: PASS ✅
+        All tests passed! you can safely run Main.py now!
       ```
-      1.  if you get an error, refer troubleshooting section below
+      1.  if you get an error, refer troubleshooting section below  
 10. after you have done that, the script will create a file called `token.json` in the `lectioToGoogleCalendar` directory  
-11. the token file contains your `TOKEN` and `REFRESH_TOKEN` and `client_id` and `client_secret` and `token_uri` witch you will need to add to your environment variables so follow the steps from step 3
-12. everything should now be set up and you can run the script by running ```python main.py``` in the `lectioToGoogleCalendar` directory
-    1.  the script will run every 30 mins and update your calendar with the next month's schedule
-13. to add the calendar to your google calendar app, click the `+` button in the bottom right corner and select `subscribe to calendar` and paste the email address of the new calendar into the text box and click `Add Calendar`
-14. now you can see your schedule in your google personal calendar app
-15. Enjoy! 😊
+11. everything should now be set up and now you can run the script by running ```python main.py``` in the `lectioToGoogleCalendar`  directory
+    1.  the script will run every 30 mins and update your calendar with the next month's schedule  
+12. to add the calendar to your google calendar app, click the `+` button in the bottom right corner and select `subscribe to calendar` and paste the email address of the new calendar into the text box and click `Add Calendar`  
+13. now you can see your schedule in your google personal calendar   
+14. Enjoy! 😊  
 
 ## Usage
 every time you run the script, it will fetch the schedule for the next month and add it to your calendar, so if you run it manually every day, you will always have the next month's schedule in your calendar.  
