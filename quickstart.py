@@ -71,35 +71,64 @@ def main():
             service.events().delete(calendarId='primary', eventId=event['id']).execute()
         except HttpError as e:
             pass
+
+        # make a check to see if lectio enviroment variable is set
         passAllChecks = True
-        if os.path.exists('token.json'):
-            print(bcolors.OKGREEN + "Test1: PASS ✅" + bcolors.ENDC)
+        if os.environ.get('LECTIO_USER') == None:
+            print(bcolors.FAIL+"Test1: FAIL ❌"+bcolors.ENDC)
+            print(bcolors.FAIL+"LECTIO_USER enviroment variable not set"+bcolors.ENDC)
+            print(bcolors.OKCYAN+"Setting it now..."+bcolors.ENDC)
+            os.environ['LECTIO'] = str(input("Enter your lectio username: "))
         else:
-            print(bcolors.FAIL + "Test1: FAIL ❌" + bcolors.ENDC)
+            print(bcolors.OKGREEN+"Test1: PASS ✅"+bcolors.ENDC)
+        if os.environ.get('LECTIO_PASS') == None:
+            print(bcolors.FAIL+"Test2: FAIL ❌"+bcolors.ENDC)
+            print(bcolors.FAIL+"LECTIO_PASS enviroment variable not set"+bcolors.ENDC)
+            print(bcolors.OKCYAN+"Setting it now..."+bcolors.ENDC)
+            os.environ['LECTIO_PASS'] = str(input("Enter your lectio password: "))
+        else:
+            print(bcolors.OKGREEN+"Test2: PASS ✅"+bcolors.ENDC)
+
+        if os.environ.get('LECTIO_USER') != None and os.environ.get('LECTIO_PASS') != None:
+            print(bcolors.OKGREEN+"Test3: PASS ✅"+bcolors.ENDC)
+        else:
+            passAllChecks = False
+            print(bcolors.FAIL+"Test3: FAIL ❌"+bcolors.ENDC)
+
+        if os.environ.get('LECTIO_INST_ID') != None and os.environ.get('student_id') != None:
+            print(bcolors.OKGREEN+"Test4: PASS ✅"+bcolors.ENDC)
+        else:
+            passAllChecks = False
+            print(bcolors.FAIL+"Test4 FAIL ❌"+bcolors.ENDC)
+
+        if os.path.exists('token.json'):
+            print(bcolors.OKGREEN + "Test5: PASS ✅" + bcolors.ENDC)
+        else:
+            print(bcolors.FAIL + "Test5: FAIL ❌" + bcolors.ENDC)
             passAllChecks = False
         try:
             event = service.events().insert(calendarId='primary', body=event).execute()
-            print(bcolors.OKGREEN + "Test2: PASS ✅" + bcolors.ENDC)
+            print(bcolors.OKGREEN + "Test6: PASS ✅" + bcolors.ENDC)
         except HttpError as e:
-            print(bcolors.FAIL + "Test2: FAIL ❌" + bcolors.ENDC)
+            print(bcolors.FAIL + "Test6: FAIL ❌" + bcolors.ENDC)
             print(e)
             passAllChecks = False
         try:
             event = service.events().get(calendarId='primary', eventId=event['id']).execute()
-            print(bcolors.OKGREEN + "Test3: PASS ✅" + bcolors.ENDC)
+            print(bcolors.OKGREEN + "Test7: PASS ✅" + bcolors.ENDC)
         except HttpError:
-            print(bcolors.FAIL + "Test3: FAIL ❌" + bcolors.ENDC)
+            print(bcolors.FAIL + "Test7: FAIL ❌" + bcolors.ENDC)
             passAllChecks = False
         #now delete the event we just made
         try:
             service.events().delete(calendarId='primary', eventId=event['id']).execute()
-            print(bcolors.OKGREEN + "Test4: PASS ✅" + bcolors.ENDC)
+            print(bcolors.OKGREEN + "Test8: PASS ✅" + bcolors.ENDC)
         except HttpError as e:
-            print(bcolors.FAIL + "Test4: FAIL ❌" + bcolors.ENDC)
+            print(bcolors.FAIL + "Test8: FAIL ❌" + bcolors.ENDC)
             print(e)
             passAllChecks = False
         if passAllChecks:
-            print(bcolors.OKGREEN + "All tests passed! you can run safely Main.py now!" + bcolors.ENDC)
+            print(bcolors.OKGREEN + "All tests passed! you can safely run Main.py now!" + bcolors.ENDC)
 
 if __name__ == '__main__':
     main()
