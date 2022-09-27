@@ -2,8 +2,10 @@ from __future__ import print_function
 
 import datetime
 import os.path
-from random import random
+import random
 from re import I
+import program
+import time
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -65,7 +67,7 @@ def main():
                 'dateTime': (datetime.datetime.utcnow() + datetime.timedelta(minutes=20)).isoformat(),
                 'timeZone': 'UTC',
             },
-            'id': str(input("Enter a ID (minimum 4 chars): ")),
+            'id': str(random.randint(10000,1000000000)),
         }
         try: 
             service.events().delete(calendarId='primary', eventId=event['id']).execute()
@@ -95,7 +97,7 @@ def main():
             passAllChecks = False
             print(bcolors.FAIL+"Test3: FAIL ❌"+bcolors.ENDC)
 
-        if os.environ.get('LECTIO_INST_ID') != None and os.environ.get('student_id') != None:
+        if os.environ.get('LECTIO_INST_ID') != None and os.environ.get('LECTIO_STUDENT_ID') != None:
             print(bcolors.OKGREEN+"Test4: PASS ✅"+bcolors.ENDC)
         else:
             passAllChecks = False
@@ -128,7 +130,16 @@ def main():
             print(e)
             passAllChecks = False
         if passAllChecks:
-            print(bcolors.OKGREEN + "All tests passed! you can safely run Main.py now!" + bcolors.ENDC)
+            run = input(bcolors.OKGREEN + "All tests passed! Would would you like to run the program? (y/n): " + bcolors.ENDC)
+            if run == "y":
+                print(bcolors.OKCYAN + "Running program..." + bcolors.ENDC)
+                time.sleep(2)
+                clearConsole = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
+                clearConsole()
+                program.master()
+            else:
+                print(bcolors.OKCYAN + "Exiting..." + bcolors.ENDC)
+                exit()
 
 if __name__ == '__main__':
     main()

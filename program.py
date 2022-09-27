@@ -3,6 +3,7 @@ from array import array
 from ast import Delete
 
 import datetime
+from doctest import master
 import os.path
 import os
 
@@ -100,7 +101,7 @@ def main():
     deleteAllEvents()
     updateCalendar()
 
-if __name__ == '__main__':
+def master():
     print(bcolors.BOLD+"thanks for using this script,"+bcolors.WARNING+" it is still in development and might not work as expected!"+bcolors.ENDC)
     print(bcolors.WARNING+"if the script is not working, please refer to the github installation guide here:"+bcolors.ENDC)
     print(bcolors.OKGREEN+"https://github.com/victorDigital/lectioToGoogleCalendar"+bcolors.ENDC)
@@ -110,3 +111,7 @@ if __name__ == '__main__':
     print(bcolors.FAIL+"WARN: Starting script in 15 seconds, DO NOT RUN ON PERSONAL CALENDAR, if in doubt press ctrl+c to cancel NOW!!!!"+ bcolors.ENDC)
     time.sleep(15)
     sched()
+
+if __name__ == '__main__':
+    master()
+    
