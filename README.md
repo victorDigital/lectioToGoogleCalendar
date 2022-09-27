@@ -13,10 +13,10 @@ this script is written in Python and uses the [Google Calendar API](https://deve
      4. a NEW google account with no current calendars  
 
 you will also need the following user environment variables (i will explain how to set them up later, so don’t worry if you don’t know what they are just yet 😊)  
-* `LECTIO_USER` (Lectio username)
-* `LECTIO_PASS` (Lectio password)
-* `LECTIO_INST_ID`
-* `student_id`
+* `LECTIO_USER` (Lectio username)  
+* `LECTIO_PASS` (Lectio password)  
+* `LECTIO_INST_ID`  
+* `LECTIO_STUDENT_ID`  
 
 ### installation:
 find a directory to install the script in, and run the following commands:
@@ -26,11 +26,11 @@ cd lectioToGoogleCalendar
 pip install -r requirements.txt
 ```
 ### configuration:
-2. log into your Letio account and find your `LECTIO_INST_ID` and `student_id` by going to your schedule and looking at the URL, it should look something like this:
+2. log into your Letio account and find your `LECTIO_INST_ID` and `LECTIO_STUDENT_ID` by going to your schedule and looking at the URL, it should look something like this:
 ```
 https://www.lectio.dk/lectio/681/SkemaNy.aspx?type=elev&elevid=12345678901
 ```
-where `681` is your `LECTIO_INST_ID` and `12345678901` is your `student_id`  
+where `681` is your `LECTIO_INST_ID` and `12345678901` is your `LECTIO_STUDENT_ID`  
 (Be careful when working with environment variables, if you override an existing variable, you can really mess up your system, so make sure you don't override any existing variables)  
 3. on Windows you open the app `Edit the system environment variables` and click `Environment Variables` and then `New` to create a new variable, and then `Edit` to edit an existing variable.  
 4. you can also add the `LECTIO_PASS` and `LECTIO_USER` to your environment variables, the values should be your lectio username and password.  
@@ -83,11 +83,6 @@ googleapiclient.errors.HttpError: <HttpError 403 ... "The caller does not have p
 it could mean that you have not given the script permission to access your google calendar, to fix this, you need to delete the `token.json` file and run the `quickstart.py` script again.  
 it could also mean that you have not specified the correct scope in the `OAuth consent screen` section, to fix this, you need to go to the `OAuth consent screen` click `Edit` and make sure that the scope includes `https://www.googleapis.com/auth/calendar` and then click `Save` and then delete the `token.json` file and run the `quickstart.py` script again.  
 
-if you get an error like this:
-```
-googleapiclient.errors.HttpError: <HttpError 401 ... "Invalid Credentials">
-```
-it could mean that you have not specified the correct `TOKEN` and `REFRESH_TOKEN` and `client_id` and `client_secret` and `token_uri` in your environment variables, to fix this, you need to delete the `token.json` file and run the `quickstart.py` script again.  
 
 other errors are probably caused by something else, so if you get an error, you can open an GitHub issue and i will try to help you.
 
