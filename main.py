@@ -60,7 +60,7 @@ def updateCalendar():
     l.authenticate(os.environ["LECTIO_USER"], os.environ["LECTIO_PASS"])
     start = datetime.datetime.now() + timedelta(days=0)
     end = start + timedelta(days=reach)
-    schedule = l.get_schedule_for_student(os.environ["student_id"], start, end)
+    schedule = l.get_schedule_for_student(os.environ["LECTIO_STUDENT_ID"], start, end)
     for i in track(range(len(schedule)), description="Adding to calendar... "):
         lesson = schedule[i]
         addToCalendar(lesson)
