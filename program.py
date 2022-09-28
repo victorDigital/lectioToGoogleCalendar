@@ -14,6 +14,7 @@ from datetime import date, timedelta
 import datetime
 from rich.progress import track
 
+# define scope
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 class bcolors:
