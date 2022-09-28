@@ -73,8 +73,6 @@ def main():
             service.events().delete(calendarId='primary', eventId=event['id']).execute()
         except HttpError as e:
             pass
-
-        # make a check to see if lectio enviroment variable is set
         passAllChecks = True
         if os.environ.get('LECTIO_USER') == None:
             print(bcolors.FAIL+"Test1: FAIL ❌"+bcolors.ENDC)
