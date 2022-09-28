@@ -1,6 +1,4 @@
 from __future__ import print_function
-from array import array
-from ast import Delete
 
 import datetime
 from doctest import master
@@ -17,9 +15,7 @@ import time
 from tokenUpdate import tokenUpdate
 from datetime import date, timedelta
 import datetime
-import pytz
-import requests
-from rich.progress import Progress, track
+from rich.progress import track
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
