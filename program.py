@@ -5,9 +5,7 @@ from doctest import master
 import os.path
 import os
 
-from operator import le
 import os
-from turtle import update
 from lectio import Lectio
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
