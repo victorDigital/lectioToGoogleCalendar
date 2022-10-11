@@ -20,7 +20,7 @@ you will also need the following user environment variables (i will explain how 
 
 ### installation:
 find a directory to install the script in, and run the following commands:
-```
+```bash
 git clone https://github.com/victorDigital/lectioToGoogleCalendar
 cd lectioToGoogleCalendar
 pip install -r requirements.txt
@@ -75,7 +75,7 @@ i recommend running the script on a Raspberry PI or something similar, so you ca
 
 ## Troubleshooting
 if you get an error like this:
-```
+```python
 googleapiclient.errors.HttpError: <HttpError 403 ... "The caller does not have permission">
 ```
 it could mean that you have not given the script permission to access your google calendar, to fix this, you need to delete the `token.json` file and run the `quickstart.py` script again.  
