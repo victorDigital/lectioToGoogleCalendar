@@ -23,7 +23,7 @@ find a directory to install the script in, and run the following commands:
 ```
 git clone https://github.com/victorDigital/lectioToGoogleCalendar
 cd lectioToGoogleCalendar
-pip install -r requirements.txt
+pip install -r requirements.txt --no-deps
 ```
 ### configuration:
 2. log into your Letio account and find your `LECTIO_INST_ID` and `LECTIO_STUDENT_ID` by going to your schedule and looking at the URL, it should look something like this:
