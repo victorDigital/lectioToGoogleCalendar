@@ -1,3 +1,5 @@
+# ***BRUG BETTER LECTIO, DEN HAR IMPLEMENTERET DENNE FUNKTION***
+
 # lectio To Google Calendar
 ## What is it?
 This is a small script that will fetch the readings for the day from the [Lectio](https://www.lectio.dk/) website and add them to your Google Calendar.
